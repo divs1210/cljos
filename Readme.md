@@ -1,5 +1,5 @@
 ## Clojure Object System
-======================
+------------------------
 ### A toy OOP system in Clojure
 
 #### Why this heresy?
