@@ -13,52 +13,29 @@ CljOS (Clojure Object System) is a simple system that mimics OOP to ease transit
 Here is a thread-safe implementation of a Stack in CljOS:
 
 ```clojure
-  (defclass Stack
-    :let  [s []]
-    :init ([& xs]
-            (swap! s concat xs))
-    :push ([x]
-            (swap! s conj x))
-    :pop  ([]
-            (let [x (last @s)]
-              (swap! s (comp pop vec))
-              x))
-    :vec  ([] (vec @s)))
+(defclass Stack 
+  {:s (atom [])}
+  {:init (fn [this & [xs]] 
+           (swap! (=< this :s) concat xs))
+   :push (fn [this x]
+           (swap! (=< this :s) (comp #(conj % x) vec)))
+   :pop  (fn [this]
+           (let [x (last @(=< this :s))]
+             (swap! (=< this :s) pop)
+             x))
+   :vec  (fn [this]
+           (vec @(=< this :s)))})
 ```
 which can be used in the following manner:
 
 ```clojure
-(def <s> (Stack 1 2)) ;=> returns a Stack object
-(<s> :push 3) ;=> (1 2 3)
-(<s> :push 4) ;=> (1 2 3 4)
-(<s> :pop)    ;=> 4
-(<s> :vec)    ;=> [1 2 3]
+(let [s (Stack)]
+  (=> s :init [1 2])
+  (=> s :push 3) 
+  (=> s :push 4)
+  (=> s :pop)
+  (=> s :vec)) ;=> [1 2 3]
 ```
-
-####Note
-:let and :init are reserved forms-
-* :let  defines *private instance variables* that are actually atoms, and are guaranteed to be thread-safe by Clojure.
-* :init defines the constructor, and is called at the time of object creation.
-
-####How does it work?
-The defclass macro transforms the previous code into this function:
-
-```clojure
-  (defn Stack [& xs]
-    (let [s (atom [])]
-      (swap! s concat xs)
-      (fn [method & args]
-        (case method
-          :push (swap! s concat args)
-          :pop  (let [x (last @s)]
-                  (swap! s (comp pop vec))
-                  x)
-          :vec  (vec @s)))))
-```
-which returns a closure that is basically what an Object in traditional OO is, and can be interacted with by calling methods. Observe how it is automatically thread-safe.
-
-#### Limitations
-* No *this* pointer! This is a severe limitation that I plan to address soon.
 
 #### License
 This code has been released under the EPL 1.0 license.
