@@ -6,24 +6,23 @@
 CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldnt be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
 
 #What it is not
-1. CljOS is not production-quality. It is just a toy that I'm playing around with.
-2. CljOS is *not* a Clojure port of CLOS, or any other existing OO system.
-3. No meta-classes.
+* CljOS is *not* a Clojure port of CLOS, or any other existing OO system.
+* It is not half as featured as CLOS, or in fact, even a minor fraction of it, but it fits beautifully into the Clojure ecosystem.
 
 #Usage
 Here is a thread-safe implementation of a Stack in CljOS:
 
-(defclass Stack
-  :let  [s []]
-  :init ([& xs]
-          (swap! s concat xs))
-  :push ([x]
-          (swap! s conj x))
-  :pop  ([]
-          (let [x (last @s)]
-            (swap! s (comp pop vec))
-            x))
-  :this ([] @s))
+  (defclass Stack
+    :let  [s []]
+    :init ([& xs]
+            (swap! s concat xs))
+    :push ([x]
+            (swap! s conj x))
+    :pop  ([]
+            (let [x (last @s)]
+              (swap! s (comp pop vec))
+              x))
+    :vec  ([] (vec @s)))
 
 which can be used in the following manner:
 
@@ -31,16 +30,17 @@ which can be used in the following manner:
 (<s> :push 3) ;=> (1 2 3)
 (<s> :push 4) ;=> (1 2 3 4)
 (<s> :pop)    ;=> 4
-(<s> :this)   ;=> [1 2 3]
+(<s> :vec)    ;=> [1 2 3]
 
 #Note
-1. The :let form defines *private instance variables* that are actually atoms, and are guaranteed to be thread-safe by Clojure.
-2. :init defines the constructor, and is called at the time of object creation.
+:let and :init are reserved forms-
+* :let  defines *private instance variables* that are actually atoms, and are guaranteed to be thread-safe by Clojure.
+* :init defines the constructor, and is called at the time of object creation.
 
 #How does it work?
-The defclass macro converts the above class into this function:
+The defclass macro transforms the previous code into this function:
 
- (defn Stack [& xs]
+  (defn Stack [& xs]
     (let [s (atom [])]
       (swap! s concat xs)
       (fn [method & args]
@@ -49,6 +49,12 @@ The defclass macro converts the above class into this function:
           :pop  (let [x (last @s)]
                   (swap! s (comp pop vec))
                   x)
-          :this @s))))
+          :vec  (vec @s)))))
 
-which returns a closure that is basically what an Object in traditional OO is.
+which returns a closure that is basically what an Object in traditional OO is, and can be interacted with by calling methods. Observe how it is automatically thread-safe.
+
+#Limitations
+* No *this* pointer! This is a severe limitation that I plan to address soon.
+
+#License
+This code has been released under the EPL license, same as Clojure.
