@@ -1,7 +1,8 @@
-##Clojure Object System
 ----------------------------
-#A toy OOP system in Clojure
+#Clojure Object System
 ----------------------------
+##A toy OOP system in Clojure
+
 #Why this heresy?
 CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldnt be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
 
@@ -57,4 +58,4 @@ which returns a closure that is basically what an Object in traditional OO is, a
 * No *this* pointer! This is a severe limitation that I plan to address soon.
 
 #License
-This code has been released under the EPL license, same as Clojure.
+This code has been released under the EPL 1.0 license.
