@@ -15,8 +15,8 @@ Here is a thread-safe implementation of a Stack in CljOS:
 ```clojure
 (defclass Stack 
   {:s (atom [])}
-  {:init (fn [this & [xs]] 
-           (swap! (=< this :s) (comp #(concat % xs) vec)))
+  {:init (fn [this xs] 
+           (swap! (=< this :s) (fn [_] xs)))
    :push (fn [this x]
            (swap! (=< this :s) conj x))
    :pop  (fn [this]

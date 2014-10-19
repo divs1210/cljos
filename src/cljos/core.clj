@@ -11,8 +11,8 @@
 
 (defn =<
   "Get property of obj" 
-  [obj property]
-  (-> obj :vars property))
+  [obj & properties]
+  (get-in obj (concat [:vars] properties)))
 
 (defn => 
   "Call method on obj"
