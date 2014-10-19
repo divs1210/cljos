@@ -50,3 +50,5 @@ The defclass macro converts the above class into this function:
                   (swap! s (comp pop vec))
                   x)
           :this @s))))
+
+which returns a closure that is basically what an Object in traditional OO is.
