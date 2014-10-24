@@ -15,28 +15,22 @@ CljOS (Clojure Object System) is a simple system that mimics OOP to ease transit
 Here is a thread-safe implementation of a Stack in CljOS:
 
 ```clojure
-(defclass Stack 
-  {:s (atom [])}
-  {:init (fn [this xs] 
-           (swap! (=< this :s) (fn [_] xs)))
-   :push (fn [this x]
-           (swap! (=< this :s) conj x))
+(defclass <Stack> <Obj>
+  {:seq  []}
+  {:push (fn [this x]
+           (this :swap #(assoc % :seq conj x) x))
    :pop  (fn [this]
-           (let [x (last @(=< this :s))]
-             (swap! (=< this :s) pop)
-             x))
-   :vec  (fn [this]
-           (vec @(=< this :s)))})
+           (let [x (last (this :seq))]
+             (this :swap #(assoc % :seq (comp vec butlast)))))})
 ```
 which can be used in the following manner:
 
 ```clojure
-(let [s (Stack)]
-  (=> s :init [1 2])
-  (=> s :push 3) 
-  (=> s :push 4)
-  (=> s :pop)
-  (=> s :vec)) ;=> [1 2 3]
+(let [s (<Stack> [1 2])]
+  (s :push 3)
+  (s :push 4) 
+  (s :pop)
+  (s :seq)) ;=> [1 2 3]
 ```
 
 #### License
