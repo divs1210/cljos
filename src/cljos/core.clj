@@ -4,7 +4,7 @@
   {:vars  (or (into (extends :vars) vars)    {})
    :fns   (or (into (extends :fns ) methods) {})
    :type  type
-   :super (extends :type)})
+   :super extends})
 
 (defmacro defclass [name extends vars methods]
   `(def ~name
@@ -17,8 +17,10 @@
         fns   (class-name :fns)
         this  (fn this* [method & argv]
                 (case method
-                  :super  nil ;todo
-                  :state  @state
+                  :state @state
+                  :super (let [[method & args] argv]
+                           (apply (partial (-> class-name :super :fns method) this*)
+                                  args))
                   :set   (let [[var val] argv]
                            (swap! state #(assoc % var val)))
                   :setf  (let [[var f & args] argv]
