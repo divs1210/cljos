@@ -1,7 +1,6 @@
 ## Clojure Object System
 ------------------------
-### A toy OOP system in Clojure
-
+### An OOP system in Clojure
 [![Clojars Project](http://clojars.org/cljos/latest-version.svg)](http://clojars.org/cljos)
 
 #### Why this heresy?
