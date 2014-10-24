@@ -1,7 +1,7 @@
 ## Clojure Object System
 ------------------------
 ### An OOP system in Clojure
-[![Clojars Project](http://clojars.org/cljos/latest-version.svg)](http://clojars.org/cljos)
+Leiningen - [cljos "1.1.0-SNAPSHOT"]
 
 #### Why this heresy?
 CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldn't be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
