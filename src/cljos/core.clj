@@ -17,10 +17,13 @@
         fns   (class-name :fns)
         this  (fn this* [method & argv]
                 (case method
-                  :super nil ;todo
-                  :state @state
+                  :super  nil ;todo
+                  :state  @state
                   :set   (let [[var val] argv]
                            (swap! state #(assoc % var val)))
+                  :setf  (let [[var f & args] argv]
+                           (this* :set var 
+                             (apply (partial f (@state var)) args)))
                   :swap  (let [[f & args] argv]
                            (apply (partial swap! state f) args))
                   ;otherwise first check if it's
@@ -28,7 +31,7 @@
                   ;a property.
                   (if (contains? fns method)
                     (apply (partial (fns method) this*) argv)
-                    (get @state (first argv) nil))))]
+                    (@state method))))]
     (apply (partial (fns :init) this) args)
     this))
 
@@ -43,9 +46,10 @@
 (defclass <Stack> <Obj>
   {:seq  []}
   {:init (fn [this & xs]
-           (this :swap #(assoc % :seq) (fn [_] (vec xs))))
+           (this :set :seq (vec xs)))
    :push (fn [this x]
-           (this :swap #(assoc % :seq conj x) x))
+           (this :setf :seq #(conj % x)))
    :pop  (fn [this]
            (let [x (last (this :seq))]
-             (this :swap #(assoc % :seq (comp vec butlast)))))})
+             (this :setf :seq #(pop %))
+             x))})
