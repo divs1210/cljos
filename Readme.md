@@ -11,7 +11,7 @@ CljOS (Clojure Object System) is a simple system that mimics OOP to ease transit
 * CljOS is *not* a Clojure port of CLOS, or any other existing OO system.
 
 #### Usage
-Here is a thread-safe implementation of a Stack in CljOS:
+Here's a Stack implemented in CljOS:
 
 ```clojure
 (defclass <Stack> <Obj>
@@ -37,8 +37,10 @@ which can be used in the following manner:
 ```
 
 ##### Note
-* The :state option can be used to get the object in the form of a Clojure data structure.
+* :setf stands for 'set with fn' and updated the given var.
+* :state can be used to get the object in the form of a Clojure data structure. No serialization required!
 * There is no need for getters. If :var should be accecced via a method, just turn it into one.
+* All objects are automatically thread-safe!
 
 #### License
-This code has been released under the EPL 1.0 license.
+CljOS has been released under the EPL 1.0 license.

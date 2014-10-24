@@ -3,12 +3,12 @@
 (defn class+ [type extends vars methods]
   {:vars  (or (into (extends :vars) vars)    {})
    :fns   (or (into (extends :fns ) methods) {})
-   :type  (type    :type)
+   :type  type
    :super (extends :type)})
 
 (defmacro defclass [name extends vars methods]
   `(def ~name
-     (~class+ ~name
+     (~class+ (quote ~name)
               ~extends
               ~vars ~methods)))
 
@@ -43,13 +43,15 @@
 
 (defclass <Obj> <Obj*> {} {})
 
-(defclass <Stack> <Obj>
-  {:seq  []}
-  {:init (fn [this & xs]
-           (this :set :seq (vec xs)))
-   :push (fn [this x]
-           (this :setf :seq #(conj % x)))
-   :pop  (fn [this]
-           (let [x (last (this :seq))]
-             (this :setf :seq pop)
-             x))})
+;Demo usage:
+;-----------
+;(defclass <Stack> <Obj>
+;  {:seq  []}
+;  {:init (fn [this & xs]
+;           (this :set :seq (vec xs)))
+;   :push (fn [this x]
+;           (this :setf :seq #(conj % x)))
+;   :pop  (fn [this]
+;           (let [x (last (this :seq))]
+;             (this :setf :seq pop)
+;             x))})
