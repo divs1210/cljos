@@ -51,5 +51,5 @@
            (this :setf :seq #(conj % x)))
    :pop  (fn [this]
            (let [x (last (this :seq))]
-             (this :setf :seq #(pop %))
+             (this :setf :seq pop)
              x))})
