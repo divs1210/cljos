@@ -19,7 +19,7 @@ Here's a Stack implemented in CljOS:
   {:init (fn [this & xs]
            (this :set :seq (vec xs)))
    :push (fn [this x]
-           (this :setf :seq #(conj % x)))
+           (this :setf :seq conj x))
    :pop  (fn [this]
            (let [x (last (this :seq))]
              (this :setf :seq pop)
