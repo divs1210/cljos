@@ -36,10 +36,9 @@ which can be used in the following manner:
 ```
 
 ##### Note
-* :setf stands for 'set with fn' and updates the given var.
-* :state can be used to get the object in the form of a Clojure data structure. No serialization required!
-* :super can be used to access the super-class's methods, including :init.
-* There is no need for getters. If :var should be accecced via a method, just turn it into one.
+* `:setf` stands for 'set with fn' and updates the given var.
+* `:state` can be used to get the object in the form of a Clojure data structure. No serialization required!
+* `:super` can be used to access the super-class's methods, including `:init`.
 * All objects are automatically thread-safe!
 
 #### License
