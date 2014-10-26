@@ -17,6 +17,7 @@
         fns   (class-name :fns)
         this  (fn this* [method & argv]
                 (case method
+                  ;special keywords
                   :state @state
                   :super (let [[method & args] argv]
                            (apply (partial (-> class-name :super :fns method) this*)
@@ -44,16 +45,3 @@
    :super nil})
 
 (defclass <Obj> <Obj*> {} {})
-
-;Demo usage:
-;-----------
-;(defclass <Stack> <Obj>
-;  {:seq  []}
-;  {:init (fn [this & xs]
-;           (this :set :seq (vec xs)))
-;   :push (fn [this x]
-;           (this :setf :seq conj x))
-;   :pop  (fn [this]
-;           (let [x (last (this :seq))]
-;             (this :setf :seq pop)
-;             x))})
