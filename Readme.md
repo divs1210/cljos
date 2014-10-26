@@ -1,7 +1,7 @@
 ## Clojure Object System
 ------------------------
 ### An OOP system in Clojure
-[![Clojars Project](http://clojars.org/cljos/latest-version.svg)](http://clojars.org/cljos)
+Leiningen - `[cljos "1.1.0-SNAPSHOT"]`
 
 #### Why this heresy?
 CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldn't be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
@@ -36,10 +36,9 @@ which can be used in the following manner:
 ```
 
 ##### Note
-* :setf stands for 'set with fn' and updates the given var.
-* :state can be used to get the object in the form of a Clojure data structure. No serialization required!
-* :super can be used to access the super-class's methods, including :init.
-* There is no need for getters. If :var should be accecced via a method, just turn it into one.
+* `:setf` stands for 'set with fn' and updates the given var.
+* `:state` can be used to get the object in the form of a Clojure data structure. No serialization required!
+* `:super` can be used to access the super-class's methods, including `:init`.
 * All objects are automatically thread-safe!
 
 #### License
