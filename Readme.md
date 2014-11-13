@@ -38,6 +38,7 @@ which can be used in the following manner:
 ##### Note
 * `:setf` stands for 'set with fn' and updates the given var.
 * `:state` can be used to get the object in the form of a Clojure data structure. No serialization required!
+* `:swap` works like `swap!`, and updates the `:state`.
 * `:super` can be used to access the super-class's methods, including `:init`.
 * All objects are automatically thread-safe!
 
