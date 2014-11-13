@@ -37,7 +37,8 @@ which can be used in the following manner:
 
 though it would be better to use the `doto+` macro:
 ```clojure
-(doto+ (new+ <Stack> 1 2)
+(def s (new+ <Stack> 1 2))
+(doto+ s
   (:push 3)
   (:push 4)
   :pop 
