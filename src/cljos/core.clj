@@ -39,24 +39,23 @@
                   :type  (class-name :type)
                   :state @state
                   :super (let [[method & args] argv]
-                           (apply (partial (-> class-name :super :fns method) 
-                                           this*)
-                                  args))
+                           (apply (-> class-name :super :fns method) 
+                                  this* args))
                   :set   (let [[var val] argv]
-                           (swap! state #(assoc % var val)))
+                           (swap! state assoc var val))
                   :setf  (let [[var f & args] argv]
-                           (this* :set var 
-                             (apply (partial f (@state var)) args)))
+                           (swap! state assoc var
+                             (apply f (@state var) args)))
                   :swap  (let [[f & args] argv]
-                           (apply (partial swap! state f) args))
+                           (apply swap! state f args))
                   ;otherwise first check if it's
                   ;a method. If not, treat it as
                   ;a property.
                   (if (contains? fns method)
-                    (apply (partial (fns method) this*) argv)
+                    (apply (fns method) this* argv)
                     (get @state method))))]
     ;call constructor, and return the object
-    (apply (partial (fns :init) this) args)
+    (apply (fns :init) this args)
     this))
 
 ;-----Utility macro(s)-----------------------------
