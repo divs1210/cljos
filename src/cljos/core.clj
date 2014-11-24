@@ -61,9 +61,13 @@
 
 ;-----Utility macro(s)-----------------------------
 (defmacro doto+
-  "Like \"doto\", but for CljOS objects."
-  [obj & forms]
-  (cons 'do (for [form forms]
-              (if (seq? form)
-                (cons obj form)
-                (list obj form)))))
+  "Like \"doto\", but for CljOS objects.
+   Returns the value of the last expression."
+  [x & forms]
+  (let [gx (gensym)]
+    `(let [~gx ~x]
+       ~@(map (fn [f]
+                (if (seq? f)
+                  `(~gx ~(first f) ~@(next f))
+                  `(~gx ~f)))
+              forms))))
