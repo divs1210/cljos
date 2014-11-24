@@ -28,13 +28,12 @@
 
 ;-----Utility fn(s) and macro(s)------------------
 (defn of-class? 
-  "Returns true if obj is a hash-map with
-   all the keys required for it to qualify
-   as an object of the given CljOS class."
+  "Returns true if obj is a hash-map with all and only 
+   the keys required for it to qualify as an object of 
+   the given CljOS class."
   [obj class-name]
-  (reduce #(and %1 %2) 
-          (map #(contains? (class-name :vars) %)
-               (keys obj))))
+  (= (set (keys (class-name :vars)))
+     (set (keys obj))))
 
 (defmacro doto+
   "Like \"doto\", but for CljOS objects.
