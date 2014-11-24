@@ -26,6 +26,28 @@
 
 (defclass <Obj> <Obj*> {} {})
 
+;-----Utility fn(s) and macro(s)------------------
+(defn of-class? 
+  "Returns true if obj is a hash-map with
+   all the keys required for it to qualify
+   as an object of the given CljOS class."
+  [obj class-name]
+  (reduce #(and %1 %2) 
+          (map #(contains? (class-name :vars) %)
+               (keys obj))))
+
+(defmacro doto+
+  "Like \"doto\", but for CljOS objects.
+   Returns the value of the last expression."
+  [x & forms]
+  (let [gx (gensym)]
+    `(let [~gx ~x]
+       ~@(map (fn [f]
+                (if (seq? f)
+                  `(~gx ~(first f) ~@(next f))
+                  `(~gx ~f)))
+              forms))))
+
 ;-----Object instantiation------------------------
 (defn new+
   "Instantiates a new CljOS object, which is a closure
@@ -42,12 +64,17 @@
                            (apply (-> class-name :super :fns method) 
                                   this* args))
                   :set   (let [[var val] argv]
-                           (swap! state assoc var val))
+                           (if (contains? @state var)
+                             (swap! state assoc var val)
+                             (throw (Exception. (str var " undefined in class " (class-name :type) ".")))))
                   :setf  (let [[var f & args] argv]
-                           (swap! state assoc var
+                           (this* :set var
                              (apply f (@state var) args)))
-                  :swap  (let [[f & args] argv]
-                           (apply swap! state f args))
+                  :swap  (let [[f & args] argv
+                               new-val    (apply f @state args)]
+                           (if (of-class? new-val class-name)
+                             (swap! state (fn [_] new-val))
+                             (throw (Exception. (str new-val " is not a valid object of class " (class-name :type) ".")))))
                   ;otherwise first check if it's
                   ;a method. If not, treat it as
                   ;a property.
@@ -57,16 +84,3 @@
     ;call constructor, and return the object
     (apply (fns :init) this args)
     this))
-
-;-----Utility macro(s)-----------------------------
-(defmacro doto+
-  "Like \"doto\", but for CljOS objects.
-   Returns the value of the last expression."
-  [x & forms]
-  (let [gx (gensym)]
-    `(let [~gx ~x]
-       ~@(map (fn [f]
-                (if (seq? f)
-                  `(~gx ~(first f) ~@(next f))
-                  `(~gx ~f)))
-              forms))))

@@ -1,7 +1,7 @@
 ## Clojure Object System
 ------------------------
 ### An OOP system in Clojure
-Leiningen - `[cljos "1.2.0-SNAPSHOT"]`
+Leiningen - `[cljos "1.3.0-SNAPSHOT"]`
 
 #### Why this heresy?
 CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldn't be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
@@ -37,12 +37,10 @@ which can be used in the following manner:
 
 though it would be better to use the `doto+` macro:
 ```clojure
-(def s (new+ <Stack> 1 2))
-(doto+ s
+(doto+ (new+ <Stack> 1 2)
   (:push 3)
   (:push 4)
-  :pop 
-  :state)  ;=> {:seq [1 2 3]}
+  :pop :state)  ;=> {:seq [1 2 3]}
 ```
 
 ##### Note
