@@ -12,12 +12,15 @@ Here's a Stack implemented in CljOS:
 ```clojure
 (defclass <Stack> <Obj>
   {:seq '(), :size nil}
+          
   {:init (fn [this size]
            (this :set :size size))
+   
    :push (fn [this x]
            (if (< (this :seq count) (this :size))
              (this :setf :seq conj x)
              (throw (Exception. "Stack full!"))))
+   
    :pop  (fn [this]
            (if (> (this :seq count) 0)
              (let [x (this :seq first)]
