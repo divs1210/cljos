@@ -74,12 +74,16 @@
                            (if (of-class? new-val class-name)
                              (swap! state (fn [_] new-val))
                              (throw (Exception. (str new-val " is not a valid object of class " (class-name :type) ".")))))
-                  ;otherwise first check if it's
-                  ;a method. If not, treat it as
-                  ;a property.
+                  ;first check if it's a method
+                  ;if not, treat it as a property
                   (if (contains? fns method)
                     (apply (fns method) this* argv)
-                    (get @state method))))]
+                    (if (contains? @state method)
+                      (let [var (@state method)
+                            [f & args] argv]
+                        (if (nil? f) var
+                          (apply f var args)))
+                      (throw (Exception. (str method " undefined in class " (class-name :type) ".")))))))]
     ;call constructor, and return the object
     (apply (fns :init) this args)
     this))

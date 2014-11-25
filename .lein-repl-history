@@ -1,0 +1,65 @@
+(doc defclass)
+(doc cljos.core/defclass)
+(doc cljos.core/new+)
+(use '(cljos.core))
+defclass
+(use '(cljos.core))
+(use 'cljos.core)
+(doc 'use)
+(doc use)
+(doc require)
+(use '(cljos core))
+(doc defclass)
+(defclass <Stack> <Obj>
+  {}
+  {:init (fn [this]
+           (this :set :seq []))
+   :push (fn [this]
+)))))
+(defclass <Stack> <Obj>
+  #_=>   {}
+  #_=>   {:init (fn [this]
+  #_=>            (this :set :seq []))
+  #_=>    :push (fn [this]
+)))
+(defclass <Stack> <Obj>
+  {}
+  {:init (fn [this]
+           (this :set :seq []))
+   :push (fn [this x]
+           (this :setf :seq conj x))
+   :pop  (fn [this]
+           (let [x (last (this :seq))]
+             (this :setf :seq (comp vec pop))
+             x))})
+(def s (new+ <Stack>))
+(defclass <Stack> <Obj>
+  {:seq []}
+   :push (fn [this x] (this :setf :seq conj x))
+   :pop  (fn [this]
+           (let [x (last (this :seq))]
+             (this :setf :seq (comp vec pop))
+             x))})
+(defclass <Stack> <Obj>
+  {:seq []}
+  {:push (fn [this x] (this :setf :seq conj x))
+   :pop  (fn [this]
+           (let [x (last (this :seq))]
+             (this :setf :seq (comp vec pop))
+             x))})
+(def s (new+ <Stack>))
+(s :push 1)
+(s :push 2)
+(s :push 3)
+(s :push 4)
+(s :push 5)
+(s :push 6)
+(s :push 7)
+(s :pop 1)
+(s :pop)
+(s :seq)
+(s :se)
+(s :set :seq 1)
+(s :seq)
+(s :push 2)
+(s :set :seq [1 2 3 4 5])
