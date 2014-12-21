@@ -11,7 +11,7 @@ Here's a Stack implemented in CljOS:
 
 ```clojure
 (defclass <Stack> <Obj>
-  {:seq '(), :size nil}
+  {:seq '(), :size 0}
           
   {:init (fn [this size]
            (this :set :size size))
