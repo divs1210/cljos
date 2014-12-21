@@ -4,7 +4,7 @@
 Leiningen - `[cljos "1.3.0-SNAPSHOT"]`
 
 #### Why this heresy?
-CljOS (Clojure Object System) is a simple system that mimics OOP to ease transition from Java. You really shouldn't be OOPing in Clojure. Clojure is a brilliant functional language, and it would be best to use it as such. However, I have heard that MIT undergrads used to get implementing OO Sytems on top of Scheme as homework, and I wanted to take up the challenge in Clojure.
+Clojure is a brilliant functional language, and it would be best to use it as such, but when you just *have* to write OO code and don't want to give up other benefits that Clojure provides, CljOS might prove to be pretty useful.
 
 #### Usage
 Here's a Stack implemented in CljOS:
