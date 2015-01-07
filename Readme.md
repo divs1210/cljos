@@ -4,7 +4,7 @@
 Leiningen - `[cljos "1.3.0-SNAPSHOT"]`
 
 #### Why this heresy?
-Clojure is a brilliant functional language, and it would be best to use it as such, but when you just *have* to write OO code and don't want to give up other benefits that Clojure provides, CljOS might prove to be pretty useful.
+Clojure is a brilliant functional language, and it would be best to use it as such, but when you just *have* to write OO code and don't want to give up other benefits that Clojure provides, CljOS might prove to be pretty useful. To read a more detailed write-up, go [here](http://pizzaforthought.blogspot.in/2014/12/cljos-objectifying-clojure.html). 
 
 #### Usage
 Here's a Stack implemented in CljOS:
