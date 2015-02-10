@@ -1,6 +1,6 @@
 ## Clojure Object System
 ------------------------
-### A simple, dynamic, single-inheritance OOP system in Clojure
+### A simple, thread-safe, single-inheritance OOP system in Clojure
 Leiningen - `[cljos "1.3.0-SNAPSHOT"]`
 
 #### Why this heresy?
