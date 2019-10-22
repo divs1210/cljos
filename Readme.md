@@ -32,7 +32,7 @@ Here's a Stack implemented in CljOS:
 which can be used in the following manner:
 ```clojure
 (def s (new+ <Stack> 3))
-(s :seq)    ;=> ()
+(s :state)  ;=> {:seq (), :size 3}
 (s :push 1) ;=> {:seq (1), :size 3}
 (s :push 2) ;=> {:seq (2 1), :size 3}
 (s :push 3) ;=> {:seq (3 2 1), :size 3}
